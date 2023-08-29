@@ -48,7 +48,7 @@ for i in attractions_list:
 mrt_counts=Counter(mrt_list)
 most_common_mrt=mrt_counts.most_common()
 
-@app.route("/api/attraction",methods=['GET'])
+@app.route("/api/attractions",methods=['GET'])
 def get_data_list():
     try:
         page=request.args.get('page',type=int,default=0)
