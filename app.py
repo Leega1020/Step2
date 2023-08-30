@@ -9,28 +9,24 @@ data_list=[]
 mrt_list=[]
 
 
-with open("data/taipei-attractions.json") as file:
-    travel_data=json.load(file)
-    attractions_list=travel_data["result"]["results"]
 
-for i in attractions_list:
-    id=i["_id"]
-    name=i["name"]
-    category=i["CAT"]
-    description=i["description"]
-    address=i["address"]
-    transport=i["direction"]
-    mrt=i["MRT"]
-    lat=float(i["latitude"])
-    lng=float(i["longitude"])
+def filter_attraction(attraction):
+    id=attraction["_id"]
+    name=attraction["name"]
+    category=attraction["CAT"]
+    description=attraction["description"]
+    address=attraction["address"]
+    transport=attraction["direction"]
+    mrt=attraction["MRT"]
+    lat=float(attraction["latitude"])
+    lng=float(attraction["longitude"])
+    link_list=attraction["file"].split("https://www.travel.taipei")
+    images=["https://www.travel.taipei"+link for link in link_list if link and not link.endswith(".mp3")]
     #print(mrt)
     if mrt is not None:
-        mrt_list.append(i["MRT"])
-    link_list=i["file"].split("https://www.travel.taipei")
-    images=["https://www.travel.taipei"+link for link in link_list if link and not link.endswith(".mp3")]
-    
+        mrt_list.append(attraction["MRT"])
 
-    travel = {
+    return {
         "id":id,
         "name":name,
         "category":category,
@@ -42,8 +38,10 @@ for i in attractions_list:
         "lng":lng,
         "images":images
     }
-
-    data_list.append(travel)
+with open("data/taipei-attractions.json") as file:
+    travel_data=json.load(file)
+    attractions_list=travel_data["result"]["results"]
+    data_list=[filter_attraction(attraction) for attraction in attractions_list]
 
 mrt_counts=Counter(mrt_list)
 most_common_mrt=mrt_counts.most_common()
