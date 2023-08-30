@@ -5,10 +5,9 @@ from collections import Counter
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
+
 data_list=[]
 mrt_list=[]
-
-
 
 def filter_attraction(attraction):
     id=attraction["_id"]
@@ -22,8 +21,8 @@ def filter_attraction(attraction):
     lng=float(attraction["longitude"])
     link_list=attraction["file"].split("https://www.travel.taipei")
     images=["https://www.travel.taipei"+link for link in link_list if link and not link.endswith(".mp3")]
-    #print(mrt)
-    if mrt is not None:
+    
+    if mrt:
         mrt_list.append(attraction["MRT"])
 
     return {
@@ -55,7 +54,7 @@ def get_data_list():
         
         filtered_data=data_list
         if keyword:
-            filtered_data=[attraction for attraction in filtered_data if keyword in attraction['name'] or (attraction['mrt'] is not None and keyword in attraction['mrt'])]
+            filtered_data=[attraction for attraction in filtered_data if keyword in attraction["name"] or (attraction["mrt"] is not None and keyword in attraction["mrt"])]
 
         single_page=12
         all_items=len(filtered_data)
