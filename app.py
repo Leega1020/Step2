@@ -123,9 +123,11 @@ def get_mrts():
     try:
         most_common_mrt=mrt_counts.most_common()
         mrt_data=[mrt for mrt, _ in most_common_mrt]
-        json_data=json.dumps({"data":mrt_data},ensure_ascii=False).encode('utf-8')
-        response = Response(json_data, content_type="application/json;")
-        return response
+        max_mrt_display=31
+        if len(mrt_data)>max_mrt_display:
+            json_data=json.dumps({"data":mrt_data[0:max_mrt_display+1]},ensure_ascii=False).encode('utf-8')
+            response = Response(json_data,content_type="application/json;")
+            return response
     except Exception as e:
         error_message="伺服器內部錯誤"
         response_data={
