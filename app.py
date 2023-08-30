@@ -48,6 +48,7 @@ for i in attractions_list:
 mrt_counts=Counter(mrt_list)
 most_common_mrt=mrt_counts.most_common()
 
+
 @app.route("/api/attractions",methods=['GET'])
 def get_data_list():
     try:
@@ -121,7 +122,6 @@ def search_attractionId(attractionId):
 @app.route("/api/mrts")
 def get_mrts():
     try:
-        most_common_mrt=mrt_counts.most_common()
         mrt_data=[mrt for mrt, _ in most_common_mrt]
         max_mrt_display=31
         if len(mrt_data)>max_mrt_display:
