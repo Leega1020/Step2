@@ -1,7 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import or_, func
-from sqlalchemy.orm import relationship,joinedload
-
+from sqlalchemy import or_,func
+from sqlalchemy.orm import relationship
 from flask import *
 
 app=Flask(__name__)
@@ -9,7 +8,7 @@ app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
 
 app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:12345678@localhost/attractions'
-db = SQLAlchemy(app)
+db=SQLAlchemy(app)
 
 class Attraction(db.Model):
     __tablename__='attraction_Info'
@@ -23,7 +22,7 @@ class Attraction(db.Model):
     mrt=db.Column(db.String(255))
     lat=db.Column(db.Float)
     lng=db.Column(db.Float)
-    picture_urls = db.relationship('picture_urls', backref='attraction', lazy=True)
+    picture_urls=db.relationship("picture_urls",backref="attraction",lazy=True)
 
     def __init__(self,origin_id,name,category,description,address,transport,mrt,lat,lng):
         self.origin_id=origin_id
@@ -37,7 +36,7 @@ class Attraction(db.Model):
         self.lng=lng
         
 class picture_urls(db.Model):
-    __tablename__ = 'picture_urls'
+    __tablename__='picture_urls'
     id = db.Column(db.Integer,primary_key=True)
     attraction_id=db.Column(db.Integer,db.ForeignKey('attraction_Info.id'),nullable=False)
     urls= db.Column(db.String(255),nullable=False)
