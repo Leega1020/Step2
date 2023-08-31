@@ -41,6 +41,10 @@ for i in all_data:
     picture_data=cur.fetchall()
     image_urls=[row[0] for row in picture_data]
     travel_data["images"]=image_urls
+    cur.execute("SELECT mrt FROM attraction_info")
+    mrt=cur.fetchall()
+    most_common_mrt=Counter(mrt).most_common()
+    mrt_data = [mrt_value[0] for mrt_value,_ in most_common_mrt if mrt_value[0] != ""]
     data_list.append(travel_data)
 
 @app.route("/api/attractions",methods=['GET'])
@@ -116,11 +120,6 @@ def search_attractionId(attractionId):
 @app.route("/api/mrts")
 def get_mrts():
     try:
-        cur.execute("SELECT mrt FROM attraction_info")
-        mrt=cur.fetchall()
-        most_common_mrt=Counter(mrt).most_common()
-        mrt_data = [mrt_value[0] for mrt_value,_ in most_common_mrt if mrt_value[0] != ""]
-        
         max_mrt_display=31
         if len(mrt_data)>max_mrt_display:
             json_data=json.dumps({"data":mrt_data[0:max_mrt_display+1]},ensure_ascii=False).encode('utf-8')
