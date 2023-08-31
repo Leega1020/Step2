@@ -1,6 +1,8 @@
 from flask import *
 import json
 from collections import Counter
+import mysql.connector.pooling
+
 
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
@@ -8,43 +10,38 @@ app.config["TEMPLATES_AUTO_RELOAD"]=True
 
 data_list=[]
 mrt_list=[]
+attractions_list=[]
+dbconfig = {
+    "database": "attractions",
+    "user": "root",
+    "host": "localhost",
+    "password": "123",
+}
 
-def filter_attraction(attraction):
-    id=attraction["_id"]
-    name=attraction["name"]
-    category=attraction["CAT"]
-    description=attraction["description"]
-    address=attraction["address"]
-    transport=attraction["direction"]
-    mrt=attraction["MRT"]
-    lat=float(attraction["latitude"])
-    lng=float(attraction["longitude"])
-    link_list=attraction["file"].split("https://www.travel.taipei")
-    images=["https://www.travel.taipei"+link for link in link_list if link and not link.endswith(".mp3")]
-    
-    if mrt:
-        mrt_list.append(attraction["MRT"])
+connection_pool = mysql.connector.pooling.MySQLConnectionPool(**dbconfig)
+con = connection_pool.get_connection()
+cur = con.cursor()
+cur.execute("SELECT*FROM attraction_Info")
+all_data=cur.fetchall()
 
-    return {
-        "id":id,
-        "name":name,
-        "category":category,
-        "description":description,
-        "address":address,
-        "transport":transport,
-        "mrt":mrt,
-        "lat":lat,
-        "lng":lng,
-        "images":images
+
+for i in all_data:
+    travel_data= {
+        "id":i[0],
+        "name":i[2],
+        "category":i[3],
+        "description":i[4],
+        "address":i[5],
+        "transport":i[6],
+        "mrt":i[7],
+        "lat":i[8],
+        "lng":i[9],
     }
-with open("data/taipei-attractions.json") as file:
-    travel_data=json.load(file)
-    attractions_list=travel_data["result"]["results"]
-    data_list=[filter_attraction(attraction) for attraction in attractions_list]
-
-mrt_counts=Counter(mrt_list)
-most_common_mrt=mrt_counts.most_common()
-
+    cur.execute("SELECT urls FROM picture_urls WHERE attraction_id=%s",(i[0],))
+    picture_data=cur.fetchall()
+    image_urls=[row[0] for row in picture_data]
+    travel_data["images"]=image_urls
+    data_list.append(travel_data)
 
 @app.route("/api/attractions",methods=['GET'])
 def get_data_list():
@@ -119,7 +116,11 @@ def search_attractionId(attractionId):
 @app.route("/api/mrts")
 def get_mrts():
     try:
-        mrt_data=[mrt for mrt, _ in most_common_mrt]
+        cur.execute("SELECT mrt FROM attraction_info")
+        mrt=cur.fetchall()
+        most_common_mrt=Counter(mrt).most_common()
+        mrt_data = [mrt_value[0] for mrt_value,_ in most_common_mrt if mrt_value[0] != ""]
+        
         max_mrt_display=31
         if len(mrt_data)>max_mrt_display:
             json_data=json.dumps({"data":mrt_data[0:max_mrt_display+1]},ensure_ascii=False).encode('utf-8')

@@ -12,7 +12,7 @@ connection_pool = mysql.connector.pooling.MySQLConnectionPool(**dbconfig)
 con = connection_pool.get_connection()
 cur = con.cursor()
 
-cur.execute("CREATE TABLE attraction_Info (id INT PRIMARY KEY AUTO_INCREMENT,name VARCHAR(255) NOT NULL,category VARCHAR(255) NOT NULL,description TEXT NOT NULL,address VARCHAR(255) NOT NULL,transport TEXT NOT NULL,mrt VARCHAR(255) NOT NULL,lat FLOAT NOT NULL,lng FLOAT NOT NULL)")
+cur.execute("CREATE TABLE attraction_Info (id INT PRIMARY KEY AUTO_INCREMENT,origin_id INT NOT NULL,name VARCHAR(255) NOT NULL,category VARCHAR(255) NOT NULL,description TEXT NOT NULL,address VARCHAR(255) NOT NULL,transport TEXT NOT NULL,mrt VARCHAR(255) NOT NULL,lat FLOAT NOT NULL,lng FLOAT NOT NULL)")
 cur.execute("CREATE TABLE picture_urls (id INT PRIMARY KEY AUTO_INCREMENT,attraction_id INT,urls VARCHAR(255) NOT NULL,FOREIGN KEY (attraction_id) REFERENCES attraction_Info(id))")
 
 mrt_list = []
@@ -33,7 +33,7 @@ for i in attractions_list:
     if mrt is None:
         mrt = ""
     
-    cur.execute("INSERT INTO attraction_Info(name,category,description,address,transport,mrt,lat,lng) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (name,category,description,address,transport,mrt,lat,lng))
+    cur.execute("INSERT INTO attraction_Info(origin_id,name,category,description,address,transport,mrt,lat,lng) VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s)", (id,name,category,description,address,transport,mrt,lat,lng))
     cur.execute("SELECT LAST_INSERT_ID()")
     attraction_id=cur.fetchone()[0]
    
