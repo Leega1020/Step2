@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded",function(){
   }
 
   function loadNextPage(){
-      fetch(`http://127.0.0.1:3000/api/attractions?page=${nextPage}`)
+      fetch(`/api/attractions?page=${nextPage}`)
         .then((response)=>response.json())
         .then((data)=>{
           if (data && data.data) {

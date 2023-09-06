@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded",function(){
     let itemWidth=1000
     let scrollPosition=0
 
-    fetch("http://127.0.0.1:3000/api/mrts")
+    fetch("/api/mrts")
         .then((response)=>response.json())
         .then((data)=>{
             if (data && data.data && Array.isArray(data.data)){

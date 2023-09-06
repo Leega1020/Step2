@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded",function(){
   function loadNextPage(keyword){
     if(!isLoading && nextPage!==null){
       isLoading=true
-      const apiUrl = `http://127.0.0.1:3000/api/attractions?page=${nextPage}&keyword=${keyword}`
+      const apiUrl = `/api/attractions?page=${nextPage}&keyword=${keyword}`
       fetch(apiUrl)
         .then((response)=>response.json())
         .then((data)=>{
