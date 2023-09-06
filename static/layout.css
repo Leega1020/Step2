@@ -58,6 +58,7 @@ header {
 .header_img img{
     width:100%;
     height:320px;
+    object-fit: cover;
 }
 
 .slogan{
