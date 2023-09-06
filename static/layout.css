@@ -3,14 +3,24 @@ body {
     padding:0;
 }
 
-
+nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: var(--additional-color-white, #FFF); 
+}
 .nav_container{
+    
     width:1200px;
     margin:0 auto;
     display:flex;
     justify-content:space-between;
     align-items:center;
     height:54px;
+ 
+   
 }
 
 .nav_container a {
@@ -41,6 +51,7 @@ body {
 }
 
 header {
+    margin-top: 54px;
     position:relative;  
 }
 
@@ -85,19 +96,17 @@ font-style: normal;
 font-weight: 700;
 line-height: 13.3px; /* 83.125% */}
 
-/* 输入框容器样式 */
-/* 输入框容器样式 */
 .header_input {
     border-radius:10px;
     fill: var(--White, #FFF);
-filter: drop-shadow(0px 0px 20px #ABC);
+    filter: drop-shadow(0px 0px 20px #ABC);
     display: flex;
     align-items: center;
-    margin-top: 25px; /* 上边距为 20px */
+    margin-top: 25px; 
    
 }
 
-/* 输入框样式 */
+
 .header_input input[type="text"]{
     border-radius:5px 0 0 5px; 
     box-sizing:border-box; 
