@@ -10,6 +10,10 @@ document.addEventListener("DOMContentLoaded",function(){
     searchButton.addEventListener("click",function(){
     const keyword=searchInput.value.trim()
     if(keyword){
+      let containerHeight=attractionContainer.clientHeight
+      attractionContainer.innerHTML=""
+      attractionContainer.style.height=containerHeight+"px"
+
       attractionContainer.innerHTML=""
       nextPage=0
       isLoading=false
@@ -83,6 +87,7 @@ document.addEventListener("DOMContentLoaded",function(){
           }
         }}
         isLoading=false
+        attractionContainer.style.height="auto"
         
       })
      
