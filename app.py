@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_,func
 from sqlalchemy.orm import relationship
 from flask import *
+#from flask_cors import CORS
 
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
@@ -9,7 +10,7 @@ app.config["TEMPLATES_AUTO_RELOAD"]=True
 
 app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:12345678@localhost/attractions'
 db=SQLAlchemy(app)
-
+#CORS(app)
 class Attraction(db.Model):
     __tablename__='attraction_Info'
     id=db.Column(db.Integer, primary_key=True)
@@ -88,6 +89,7 @@ def get_data_list():
         json_data=json.dumps(response_data,ensure_ascii=False).encode("utf-8")
         response=Response(json_data,content_type="application/json;")
         return response
+        #return jsonify({response_data})
     except Exception as e:
         error_message="伺服器內部錯誤"
         response_data={
@@ -152,13 +154,14 @@ def get_mrts():
         if len(mrt_data)>max_mrt_display:
             mrt_data=mrt_data[:max_mrt_display+1]
 
-        response_data={
-            "data":mrt_data
-        }
+        #response_data={
+           # "data":mrt_data
+        #}
 
-        json_data=json.dumps(response_data,ensure_ascii=False).encode("utf-8")
-        response=Response(json_data,content_type="application/json")
-        return response
+        #json_data=json.dumps(response_data,ensure_ascii=False).encode("utf-8")
+        #response=Response(json_data,content_type="application/json")
+        #return response
+        return jsonify({"data":mrt_data})
     except Exception as e:
         error_message="伺服器內部錯誤"
         response_data={

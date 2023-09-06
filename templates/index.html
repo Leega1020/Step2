@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/static/layout.css">
+</head>
+<body>
+    <nav>
+        <div class="nav_container">
+            <a href="/">台北一日遊</a>
+            <div class="btn">
+                <button>預定行程</button>
+                <button>登入/註冊</button>
+            </div>
+        </div>
+    </nav>
+    <header>
+        <div class="header_img">
+        <img src="/static/images/[desktop] hero section.png"></div>
+        <div class="slogan">
+            <h1>輕鬆享受台北一日悠閒</h1>
+            <p>探索每個角落，體驗城市的深度旅遊行程</p>
+            <div class="header_input">
+                <input type="text" placeholder="輸入景點名稱查詢" id="searchInput">
+                <button type="submit" id="searchButton"><img src="/static/images/d5750c31481dec07f7101a5fb69baa37.png" alt="Search"></button>
+            </div> 
+        </div>
+    </header>
+<main>
+    <div class="list_bar">
+        <div class="left_container">
+            <button  class="scroll-button" id="scroll-left"><img src="/static/images/prev.png" alt="left"></button>
+        </div>
+        <div class="list_item">
+            <ul id="mrt_list">  
+            </ul></div>
+            <div class="right_container">
+                <button class="scroll-button" id="scroll-right">
+                    <img src="/static/images/next.png" alt="right">
+                </button>
+            </div>      
+    </div>
+    <div id="mrt_buttonsContainer"></div>
+    <div class="attractions"></div>
+</main> 
+    <footer>
+        <p>COPYRIGHT © 2021 台北一日遊</p>
+    </footer>
+    <script src="/static/mrt.js"></script>
+    <script src="/static/keyword.js"></script>
+    <script src="/static/index.js"></script> 
+</body>
+</html>
