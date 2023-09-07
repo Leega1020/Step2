@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded",function(){
-    let mrtList = document.getElementById("mrt_list")
-    let scrollLeftButton = document.getElementById("scroll-left")
-    let scrollRightButton = document.getElementById("scroll-right")
-    let searchInput = document.getElementById("searchInput")
-    let searchButton = document.getElementById("searchButton")
-    let contentContainer = document.querySelector(".attractions")
+    let mrtList=document.getElementById("mrt_list")
+    let scrollLeftButton=document.getElementById("scroll-left")
+    let scrollRightButton=document.getElementById("scroll-right")
+    let searchInput=document.getElementById("searchInput")
+    let searchButton=document.getElementById("searchButton")
+    let list_item=document.querySelector(".list_item")
 
     let searching=false
     let itemWidth=calculateItemWidth()
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded",function(){
                     } else {
                         scrollRightButton.disabled=false
                     }
-                    mrtList.style.transform=`translateX(-${scrollPosition}px)`
+                    //mrtList.style.transform=`translateX(-${scrollPosition}px)`
                 }
                 function startSearch(){
                     searching=true    
@@ -59,6 +59,10 @@ document.addEventListener("DOMContentLoaded",function(){
                 scrollLeftButton.addEventListener("click",()=>{
                     if (scrollPosition>0){
                         scrollPosition-=itemWidth
+                        list_item.scrollTo({
+                            left:scrollPosition,
+                            behavior:"smooth",
+                        });
                         if (scrollPosition<0){
                             scrollPosition=0
                         }
@@ -67,6 +71,10 @@ document.addEventListener("DOMContentLoaded",function(){
 
                     if (scrollPosition===0){
                         scrollLeftButton.disabled=true
+                        list_item.scrollTo({
+                            left:scrollPosition,
+                            behavior:"smooth",
+                        });
                     }
                     scrollRightButton.disabled=false
                 });
@@ -74,6 +82,10 @@ document.addEventListener("DOMContentLoaded",function(){
                 scrollRightButton.addEventListener("click",()=>{
                     if(scrollPosition<maxScrollPosition){
                         scrollPosition+=itemWidth
+                        list_item.scrollTo({
+                            left:scrollPosition,
+                            behavior:"smooth",
+                        });
                         if (scrollPosition>maxScrollPosition){
                             scrollPosition=maxScrollPosition
                         }
@@ -81,6 +93,10 @@ document.addEventListener("DOMContentLoaded",function(){
                     updateList()
                     if (scrollPosition===maxScrollPosition) {
                         scrollRightButton.disabled=true
+                        list_item.scrollTo({
+                            left:scrollPosition,
+                            behavior:"smooth",
+                        });
                     }
                     scrollLeftButton.disabled=false
                 });
