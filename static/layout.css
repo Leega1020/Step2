@@ -166,7 +166,7 @@ main{
     height:50px;
     padding-bottom:20px;
     margin:0 auto; 
-    margin-top:40px;  
+    margin-top:40px; 
 }
 
 
@@ -263,6 +263,7 @@ ul button {
     bottom:45px;
     left:0;
     right:0;  
+    text-overflow: ellipsis;
 }
 .attraction_name p{
     color: var(--additional-color-white, #FFF);
@@ -272,6 +273,7 @@ ul button {
     font-weight: 700;
     line-height: 13.3px;
     padding:10px;
+  
 }
 .attraction_pic{
     display:flex;
@@ -356,7 +358,7 @@ main {
 }
 .list_item {
     width:100%;
-    overflow-x:auto;
+    overflow-x:hidden;
 }
 .list_bar{
     width:90%;
@@ -383,20 +385,27 @@ ul {
     height:100%;
 }
 .header_input button[type="submit"] img{
-    max-width: 00%;
+    max-width: 100%;
     height:auto;
 }
 .attraction{
-    width:calc(33.333% - 30px);
+    width:47%;
+   
 }
 
 .attractions{
     width:90%;
+    
     justify-content:space-between;  
 }
 footer {
     width: 100%;
-}}
+}
+.attraction_bottom p {
+    white-space: nowrap;  
+    
+}
+}
 
 
 @media screen and (max-width:600px){
@@ -429,7 +438,7 @@ footer {
     }
     .list_item{
         width:100%;
-        overflow-x:auto;
+        overflow-x:hidden;
     }
     .list_bar{
         width:100%;
@@ -466,6 +475,10 @@ footer {
         width:100%;
         gap:15px;
     }
+    .attraction_bottom p {
+        white-space: nowrap;   
+    }
+    
 
 }
 

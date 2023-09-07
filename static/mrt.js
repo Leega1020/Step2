@@ -7,8 +7,20 @@ document.addEventListener("DOMContentLoaded",function(){
     let contentContainer = document.querySelector(".attractions")
 
     let searching=false
-    let itemWidth=1000
+    let itemWidth=calculateItemWidth()
     let scrollPosition=0
+
+    function calculateItemWidth(){
+        let windowWidth=window.innerWidth;
+        if (windowWidth<600){
+            return 200
+        }else if (windowWidth>=600 && windowWidth<=1200){
+            return 600
+        }else {
+            return 1000
+        }
+    }
+    
 
     fetch("/api/mrts")
         .then((response)=>response.json())
@@ -21,7 +33,6 @@ document.addEventListener("DOMContentLoaded",function(){
                     button.addEventListener("click",()=>{
                         searchInput.value = item
                         searchButton.click()
-                        generateContent(item)
                     })
                     mrtList.appendChild(button)
                 });
@@ -30,7 +41,7 @@ document.addEventListener("DOMContentLoaded",function(){
                     if (itemWidth>=mrtList.offsetWidth){
                         scrollPosition=maxScrollPosition
                         startSearch()
-                        performSearch()
+                        
                     }
                     if (scrollPosition===maxScrollPosition){
                         scrollRightButton.disabled=true
@@ -40,20 +51,24 @@ document.addEventListener("DOMContentLoaded",function(){
                     mrtList.style.transform=`translateX(-${scrollPosition}px)`
                 }
                 function startSearch(){
-                    searching=true
-                    window.removeEventListener("scroll",loadNextPage)
-                    contentContainer.innerHTML=""
+                    searching=true    
                 }
 
                 updateList()
 
                 scrollLeftButton.addEventListener("click",()=>{
-                    if(scrollPosition>0){
+                    if (scrollPosition>0){
                         scrollPosition-=itemWidth
-                    }else{
-                        scrollPosition=0
+                        if (scrollPosition<0){
+                            scrollPosition=0
+                        }
                     }
                     updateList()
+
+                    if (scrollPosition===0){
+                        scrollLeftButton.disabled=true
+                    }
+                    scrollRightButton.disabled=false
                 });
 
                 scrollRightButton.addEventListener("click",()=>{
@@ -64,16 +79,13 @@ document.addEventListener("DOMContentLoaded",function(){
                         }
                     }
                     updateList()
+                    if (scrollPosition===maxScrollPosition) {
+                        scrollRightButton.disabled=true
+                    }
+                    scrollLeftButton.disabled=false
                 });
             }
-        })
-      
-    function generateContent(selectedItem){
-        contentContainer.innerHTML=""
-        isLoading=true
-    }  
+        });
+
+    
 });
-
-
-
-
