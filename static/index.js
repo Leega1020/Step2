@@ -55,6 +55,10 @@ document.addEventListener("DOMContentLoaded",function(){
                         attractionData.forEach((item)=>{
                             let attractionElement = document.createElement("div")
                             attractionElement.classList.add("attraction")
+                            let attractionId=item.id
+                            let attractionLink=document.createElement("a")
+                            attractionLink.href=`/attraction/${attractionId}`
+
 
                             let pictureElement = document.createElement("div")
                             pictureElement.classList.add("attraction_pic")
@@ -81,10 +85,11 @@ document.addEventListener("DOMContentLoaded",function(){
                             catParagraph.textContent=item.category
                             mrtElement.appendChild(catParagraph)
 
-                            attractionElement.appendChild(pictureElement)
-                            attractionElement.appendChild(nameElement)
-                            attractionElement.appendChild(mrtElement)
-
+                            attractionLink.appendChild(pictureElement)
+                            attractionLink.appendChild(nameElement)
+                            attractionLink.appendChild(mrtElement)
+                            attractionElement.appendChild(attractionLink)
+                            
                             attractionContainer.appendChild(attractionElement)
                         })
 

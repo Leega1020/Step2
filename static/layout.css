@@ -2,6 +2,9 @@
 
     scroll-behavior: smooth !important;
 }
+a {
+    text-decoration: none;
+}
 .mrt_list{
     scroll-behavior: smooth;
 }
@@ -222,7 +225,7 @@ ul button {
     align-items:center;
     height:100%;
     margin-left:auto;
-    padding:9px 15px; /* 调整外边距以适应按钮 */
+    padding: 9px 15px 9px 0px;
     align-items:center; 
 }
 .right_container img{
