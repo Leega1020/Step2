@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_,func
 from sqlalchemy.orm import relationship
 from flask import *
-from flask_cors import CORS
+#from flask_cors import CORS
 
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
