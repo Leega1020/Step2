@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/static/attraction.css">
+</head>
+<body>
+    <nav>
+        <div class="nav_container">
+            <a href="/">台北一日遊</a>
+            <div class="btn">
+                <button>預定行程</button>
+                <button>登入/註冊</button>
+            </div>
+        </div>
+    </nav>
+    
+<main>
+    <section>
+        <div class="section_image">
+           <img class="left_arror" src="/static/images/left_arrow.png">
+           <img class="right_arror" src="/static/images/right_arrow.png">
+           <div class="current">
+            
+           </div>
+        </div>
+        <div class="proifle">
+            <div class="title">
+             
+            </div>
+            <div class="subtitle">
+               
+            </div>
+            
+            <div class="booking-form" >
+                <p class="order_title font_700" >訂購導覽行程</p>
+                <p class="order_subtitle font_500">以此景點為中心的一日行程，帶您探索城市角落故事</p>
+                <div class="order_time"><p class="font_700" style="display: inline">選擇日期：</p>
+                    <input type="date" pattern="\d{4}-\d{2}-\d{2}" lan="en" placeholder="yyyy/mm/dd" ></div>
+                <div class="c1">
+                    <span class="font_700">選擇時間：</span>
+                    <div class="choose_time">
+                        <img src="/static/images/radio btn.svg">
+                    <p>上半天</p></div>
+                    <div class="choose_time">
+                        <img src="/static/images/radio btn_off.svg">
+                    <p>下半天</p>
+                    </div>
+                </div>
+                <div class="order_time"><span class="font_700">導覽費用：</span>
+                <span class="font_500" id="tour_fee"></span>
+                </div>
+                <button class="order_botton">開始預約行程</button>
+            </div>
+        </div>
+   </section>
+<hr>
+   
+<div class="s2">
+   <div class="infors">
+    <div class="info_content">
+         </div>
+    <div class="info_add ">
+        <div class="font_700 info_title"><p>景點地址：</p></div>
+        <p class="adress"></p>
+    </div>
+    <div class="info_add">
+        <div class="font_700 info_title">交通方式：</div>
+        <p class="traffic"></p>
+    </div>
+
+   </div></div>
+</main> 
+    <footer>
+        <p>COPYRIGHT © 2021 台北一日遊</p>
+    </footer>
+    <script src="/static/attraction.js"></script>
+</body>
+</html>

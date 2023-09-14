@@ -1,0 +1,494 @@
+*,html{
+
+    scroll-behavior: smooth !important;
+}
+a {
+    text-decoration: none;
+}
+.mrt_list{
+    scroll-behavior: smooth;
+}
+body {
+    margin:0;
+    padding:0;
+}
+
+nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: var(--additional-color-white, #FFF); 
+}
+.nav_container{
+    
+    width:1200px;
+    margin:0 auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    height:54px;
+ 
+   
+}
+
+.nav_container a {
+    text-decoration:none; 
+    margin:0;
+    color:var(--primary-color-cyan-70, #489);
+    font-family: Noto Sans TC;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 34px; /* 113.333% */
+}
+
+.btn {
+    display:flex;
+    height:34px;  
+}
+
+.btn button {
+    background: none;
+    border: none;
+    color: var(--secondary-color-gray-70, #666);
+    font-family: Noto Sans TC;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 13.3px; /* 83.125% */  
+}
+
+header {
+    margin-top: 54px;
+    position:relative;  
+}
+
+.header_img img{
+    width:100%;
+    height:320px;
+    object-fit: cover;
+}
+
+.slogan{
+    width:1200px; 
+    position:absolute;
+    top:85px;
+    left:50%;
+    transform:translateX(-50%); 
+    padding:10px;
+    
+}
+.slogan h1{
+    margin-top: 0;
+    color: var(--secondary-color-gray-10, #F8F8F8);
+
+/* Text Shadow */
+text-shadow: 0px 0px 30px #ABC;
+
+/* Header 1 - Bold 28(24) */
+font-family: Noto Sans TC;
+font-size: 28px;
+font-style: normal;
+font-weight: 700;
+line-height: 24px; /* 85.714% */
+
+}
+.slogan p{
+    margin-top: 15px;
+   
+color: var(--secondary-color-gray-10, #F8F8F8);
+
+/* Body - Bold 16(13.3) */
+font-family: Noto Sans TC;
+font-size: 16px;
+font-style: normal;
+font-weight: 700;
+line-height: 13.3px; /* 83.125% */}
+
+.header_input {
+    border-radius:10px;
+    fill: var(--White, #FFF);
+    filter: drop-shadow(0px 0px 20px #ABC);
+    display: flex;
+    align-items: center;
+    margin-top: 25px; 
+   
+}
+
+
+.header_input input[type="text"]{
+    border-radius:5px 0 0 5px; 
+    box-sizing:border-box; 
+    border:1px solid #ccc; 
+    padding:15px;
+    width:400px; 
+    height:46px;
+}
+
+.header_input button[type="submit"]{
+    background-color:transparent;
+    cursor:pointer;
+    padding:8px 15px; 
+    margin:0;
+    width:60px; 
+    height:46px;
+    border:none; 
+    position:relative; 
+}
+
+.header_input button[type="submit"]::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%; 
+    height:100%;
+    background-color: #489; 
+    border-radius:0 5px 5px 0; 
+    z-index:-1; 
+}
+
+.header_input button[type="submit"] img{
+    max-width:100%;
+    height:auto;
+}
+
+main{
+    margin:40px auto;
+}
+.list-container{
+    overflow:hidden;
+    width:1200px; 
+    margin:0 auto; 
+}
+.list_item{
+    white-space:nowrap;
+    overflow-x:hidden; 
+    width:100%;
+}
+
+.list_bar {
+    display:flex;
+    align-items:center;
+    width:1200px; 
+    height:50px;
+    padding-bottom:20px;
+    margin:0 auto; 
+    margin-top:40px; 
+}
+
+
+
+ul {
+    display:flex;
+    list-style-type:none;
+    margin:0;
+    padding:0;
+    height:50px;
+    align-items:center;   
+}
+ul button {
+    background-color:transparent; 
+    color: #666; 
+    border:none; 
+    padding: 5px 15px;
+    font-family: 'Noto Sans TC', sans-serif; 
+    font-size: 16px;
+    font-weight: 500; 
+    cursor:pointer; 
+}
+
+.scroll-button{
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:0;
+    margin:0;  
+}
+
+.left_container{
+    align-items:center; 
+    display:flex;
+    align-items:center;
+    height:100%;
+    margin-right:auto;
+    padding:9px 0px 9px 15px;
+}
+.left_container img{
+    width:32px;
+    height:32px;}
+
+.right_container{
+    display:flex;
+    align-items:center;
+    height:100%;
+    margin-left:auto;
+    padding: 9px 15px 9px 0px;
+    align-items:center; 
+}
+.right_container img{
+    width: 32px;
+    height: 32px;  
+    }
+    
+.attraction{
+    border-radius:5px;
+    border:1px solid var(--secondary-color-gray-20, #E8E8E8);
+    background: var(--White, #FFF);
+    width:23%;
+    height:auto;
+    position:relative;
+    display:flex;
+    flex-direction:column; 
+    box-sizing:border-box;   
+}
+
+.attractions{
+    width:1200px;
+    height:auto;
+    margin:0 auto;
+    display:flex;
+    flex-wrap:wrap;
+    gap:30px; 
+    padding:15px; 
+    box-sizing:border-box;  
+}
+
+
+
+.attraction_name{
+    display:flex;
+    align-items:center;
+    height:40px;
+    opacity:0.6;
+    background: var(--additional-color-black, #000);
+    color: var(--additional-color-white, #FFF);
+    font-family: Noto Sans TC;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    position: absolute; 
+    bottom:45px;
+    left:0;
+    right:0;  
+    text-overflow: ellipsis;
+}
+.attraction_name p{
+    color: var(--additional-color-white, #FFF);
+    font-family: Noto Sans TC;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 13.3px;
+    padding:10px;
+  
+}
+.attraction_pic{
+    display:flex;
+    width:100%;
+    overflow:hidden;
+    position:relative;   
+}
+.content-placeholder{
+    height:104px;
+}
+.attraction_pic img{
+    display:flex;
+    width:100%;
+   min-width:320px;
+    max-height:180px;
+    object-fit:cover;
+}
+.attraction_bottom {
+    display: flex;
+    height: 45px; 
+}
+.attraction_bottom p{
+    padding:10px;
+    margin:0; 
+    flex:1; 
+    font-family: Noto Sans TC;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    color: var(--secondary-color-gray-50, #757575);
+}
+
+.attraction_bottom p:first-child{
+    text-align:left;
+}
+
+.attraction_bottom p:last-child{
+    text-align: right; 
+}
+footer{
+    bottom:0;
+    width:100%;
+    height:104px;
+    background: var(--Gray-700, #757575);
+    display: flex;
+    align-items:center;
+    justify-content:center;
+}
+footer p{
+    color: var(--additional-color-white, #FFF);
+    /* Body - Bold 16(13.3) */
+    font-family: Noto Sans TC;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 13.3px; /* 83.125% */
+    padding:40px auto;
+}
+
+@media screen and (min-width: 601px) and (max-width: 1200px){ 
+.nav_container {
+    width: 90%;
+}
+header {
+    width:100%;
+    height:320px;
+    overflow:hidden;
+}
+.header_input{
+    margin-left:0 !important;
+}
+
+.slogan {
+    width: 90%;
+}
+main {
+    margin: 20px auto;
+}
+.list-container {
+    width:100%;
+    padding:0 20px;
+}
+.list_item {
+    width:100%;
+    overflow-x:hidden;
+}
+.list_bar{
+    width:90%;
+    padding:0;
+}
+ul {
+    padding:5px 0;
+}
+.header_input{
+    margin-left:0;
+}
+.header_input input[type="text"]{
+    width: 230px;
+}
+
+.header_input button[type="submit"]{
+    height:100%;
+}
+
+.header_input button[type="submit"]::after{
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}
+.header_input button[type="submit"] img{
+    max-width: 100%;
+    height:auto;
+}
+.attraction{
+    width:47%;
+   
+}
+
+.attractions{
+    width:90%;
+    
+    justify-content:space-between;  
+}
+footer {
+    width: 100%;
+}
+.attraction_bottom p {
+    white-space: nowrap;  
+    
+}
+}
+
+
+@media screen and (max-width:600px){
+    .nav_container{
+        width:90%;
+    }
+    header{
+        width:100%;
+        height:320px;
+        overflow:hidden;
+    }
+
+    .header_img img{
+        width:auto;
+        height:auto;
+    }
+
+    .slogan{
+        width:100%;
+        text-align:center;
+        padding:10px;  
+    }
+    main {
+        margin:20px auto;
+    }
+
+    .list-container{
+        width:100%;
+        padding:0 20px;
+    }
+    .list_item{
+        width:100%;
+        overflow-x:hidden;
+    }
+    .list_bar{
+        width:100%;
+        padding:0;
+    }
+
+    ul{
+        padding: 5px 0;
+    }
+    .header_input{
+        justify-content: center; 
+    }
+    .header_input input[type="text"]{
+        width: 230px;
+    }
+    .header_input button[type="submit"]{
+        height: 100%;
+    }
+    .header_input button[type="submit"]::after{
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+    }
+
+    .header_input button[type="submit"] img{
+        max-width:100%;
+        height:auto;
+    }
+    .attraction{
+        width:100%;
+    }
+    .attractions{
+        width:100%;
+        gap:15px;
+    }
+    .attraction_bottom p {
+        white-space: nowrap;   
+    }
+    
+
+}
+
