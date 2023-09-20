@@ -1,7 +1,7 @@
 *,html{
-
     scroll-behavior: smooth !important;
 }
+
 a {
     text-decoration: none;
 }
@@ -22,16 +22,12 @@ nav{
     background: var(--additional-color-white, #FFF); 
 }
 .nav_container{
-    
     width:1200px;
     margin:0 auto;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    height:54px;
- 
-   
-}
+    height:54px;}
 
 .nav_container a {
     text-decoration:none; 

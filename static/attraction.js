@@ -124,7 +124,16 @@ document.addEventListener("DOMContentLoaded",function(){
         })
     } 
 })
-    }}
+    }
+    // let overlay = document.querySelector(".overlay-attractions");
+    // let signinUpButton = document.getElementById("signin_up");
+    // signinUpButton.addEventListener("click", function () {
+    //     // 显示 "overlay-attractions"
+    //     overlay.style.display = "block";
+    // });
+  
+
+    }
 )
 
     
