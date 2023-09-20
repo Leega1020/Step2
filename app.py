@@ -2,14 +2,28 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_,func
 from sqlalchemy.orm import relationship
 from flask import *
+from decouple import config
+import jwt
+from datetime import datetime, timedelta
 #from flask_cors import CORS
-
+import mysql.connector.pooling
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
+dbconfig = {
+    "database":"attractions",
+    "user":"root",
+    "host":"localhost",
+    "password":"12345678",
+}
+connection_pool=mysql.connector.pooling.MySQLConnectionPool(**dbconfig)
+
+con=connection_pool.get_connection()
+SECRET_KEY = config('SECRET_KEY')
 
 app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:12345678@localhost/attractions'
 db=SQLAlchemy(app)
+
 #CORS(app)
 class Attraction(db.Model):
     __tablename__='attraction_Info'
@@ -171,6 +185,97 @@ def get_mrts():
         json_data=json.dumps(response_data, ensure_ascii=False).encode('utf-8')
         response=Response(json_data, status=500, content_type="application/json")
         return response
+    
+@app.route("/api/user",methods=["POST"])
+def getSignup():
+    try:
+        signUpName=request.json.get("name")
+        signUpEmail=request.json.get("email")
+        signUpPassword=request.json.get("password")
+
+        cur=con.cursor()
+        cur.execute("SELECT*FROM member WHERE email=%s",(signUpEmail,))
+        result=cur.fetchone()
+
+        if result:
+            message="註冊失敗，重複的 Email 或其他原因"
+            return jsonify({"error": True, "message": message}),400
+        else:
+            cur.execute("INSERT INTO member (name, email, password) VALUES (%s, %s, %s)",
+                        (signUpName, signUpEmail, signUpPassword))
+            con.commit()  
+            return jsonify({"ok": True})
+    except Exception as e:
+        error_message="伺服器內部錯誤"
+        response_data={
+            "error":True,
+            "message":error_message
+        }
+        return jsonify(response_data),500
+
+
+
+
+@app.route("/api/user/auth",methods=["PUT"])
+def handleSignin():
+    try:
+        signInEmail = request.json.get("email")
+        signInPassword = request.json.get("password")
+    
+        cur=con.cursor()
+        cur.execute("SELECT * FROM member WHERE email=%s AND password=%s", (signInEmail, signInPassword))
+        result=cur.fetchone()
+        exp=datetime.utcnow()+timedelta(days=7)
+        if result:
+            data = {
+                "id":result[0],
+                "name":result[1],
+                "email":result[2],
+                "exp":exp
+            }
+            token=jwt.encode(data,SECRET_KEY,algorithm='HS256')
+            response_data={
+                "token":token
+            }
+            return jsonify(response_data),200
+        else:
+            return jsonify({"error": True,"message":"登入失敗，帳號或密碼錯誤或其他原因"}),400
+
+    except Exception as e:
+        return jsonify({"error":True,"message":"伺服器內部錯誤"}),500
+
+
+@app.route("/api/user/auth",methods=["GET"])
+def handleAuth():
+    token=request.headers.get('Authorization').split(' ')[1] 
+    
+    if token is None:
+        response_data={
+            "data":None
+        }
+        return jsonify(response_data),200
+    else:
+        try:
+            decoded_token=jwt.decode(token,SECRET_KEY,algorithms=["HS256"])
+            user_id=decoded_token.get("id")
+            user_name=decoded_token.get("name")
+            user_email=decoded_token.get("email")
+
+            response_data={
+                "data":{
+                    "id":user_id,
+                    "name":user_name,
+                    "email":user_email
+                }
+            }
+            return jsonify(response_data),200
+        
+        except Exception as e:
+            response_data={
+                "data":None
+            }
+            return jsonify(response_data),200
+
 # Pages
 @app.route("/")
 def index():

@@ -5,14 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" type="text/css" href="/static/attraction.css">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
 </head>
 <body>
+    <div class="overlay" style="display: none;"></div>
     <nav>
         <div class="nav_container">
             <a href="/">台北一日遊</a>
             <div class="btn">
-                <button>預定行程</button>
-                <button>登入/註冊</button>
+                <button id="booking">預定行程</button>
+                <button id="signin_up">登入/註冊</button>
             </div>
         </div>
     </nav>
@@ -76,6 +78,64 @@
     <footer>
         <p>COPYRIGHT © 2021 台北一日遊</p>
     </footer>
+
+
+    <div class="signinContainer" style="display: none;">
+        <div class="decorator-bar"></div>
+        <div class="sign_main">
+            <div class="close_in" >
+                <img src="/static/images/close.png"></div>
+            <div class="sign_title">
+                <p>登入會員帳號</p>
+            </div>
+            <form id="signinForm">
+            <div class="sign_input">
+                <input type="email" id="signInEmail" placeholder="輸入電子郵件" >
+            </div>
+            <div class="sign_input">
+                <input type="password" id="signInPassword" placeholder="輸入密碼" >
+            </div>
+            <button class="signBtn">登入帳戶</button></form>
+            
+            <div class="toSignup">
+                
+                <p>還沒有帳戶？<span id="signupLink">點此註冊</span></p>
+            </div>
+            </div>  
+    </div>
+
+
+    <div class="signupContainer" style="display: none;">
+  
+        <div class="decorator-bar"></div>
+        <div class="sign_main">
+            <div class="close_up" >
+                <img src="/static/images/close.png"></div>
+            <div class="sign_title">
+                <p>註冊會員帳號</p>
+            </div>
+            <form id="signupForm">
+            <div class="sign_input">
+                <input type="text" id="signUpName" placeholder="輸入姓名" >
+            </div>
+            <div class="sign_input">
+                <input type="email" id="signUpEmail" placeholder="輸入電子郵件" >
+            </div>
+            <div class="sign_input">
+                <input type="password" id="signUpPassword" placeholder="輸入密碼" >
+            </div>
+            <button class="signBtn">註冊新帳戶</button>
+           
+            <div class="toSignin"></form>
+                <p>已經有帳戶了？<span id="toSignin">點此登入</span></p>
+            </div>
+            </div>  
+    </div>
+    
+
+
     <script src="/static/attraction.js"></script>
+    <script src="/static/script.js"></script>
+   
 </body>
 </html>
