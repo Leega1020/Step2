@@ -77,6 +77,7 @@
     flex-grow: 1;
     background: var(--White, #FFF);
     overflow: hidden;
+    border-radius: 0 0 5px 5px;
 }
 .sign_title{
     
@@ -207,7 +208,3 @@ input[type="password"]{
     align-items: center;
     justify-content: center;
 }
-
-
-
-

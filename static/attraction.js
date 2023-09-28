@@ -1,5 +1,44 @@
 document.addEventListener("DOMContentLoaded",function(){
-
+  
+  let orderButton = document.querySelector(".order_botton")
+    if (orderButton){
+        orderButton.addEventListener("click",function(){
+            if(!token){
+                handleSigninUpButtonClick()
+            }else{
+            let orderDate=document.querySelector("#ordet_date").value
+            let currentUrl=window.location.pathname
+            let id=currentUrl.split('/').pop()
+            let tourFeeText=document.querySelector("#tour_fee").textContent
+            let tourFee=parseFloat(tourFeeText.match(/\d+/)[0]) 
+            let userName=localStorage.getItem("User-Name")
+            function getSelectedTime(){
+                let selectedTime;
+                if (tourFee == 2000){
+                    selectedTime="上半天"
+                } else {
+                    selectedTime="下半天"
+                }
+                return selectedTime
+            }
+            fetch("/api/booking",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json",
+                    "Authorization":`Bearer ${token}`,
+                    "User-Name":userName
+                },
+                body:JSON.stringify({
+                    id:id,
+                    date:orderDate,
+                    time:getSelectedTime(),
+                    price:tourFee,
+                })
+            }).then((response)=>{
+                return response.json()
+            }).then((data) => {
+                window.location.href = "/booking";
+            });}});}
     if (window.location.pathname.includes('/attraction/')){
     let attractionId=window.location.pathname.split('/').pop()
     let apiUrl=`/api/attraction/${attractionId}`
@@ -8,7 +47,6 @@ document.addEventListener("DOMContentLoaded",function(){
     .then((response)=>response.json()) 
     .then((data)=>{console.log(data)
       if (data && data.name){
-       
         let titleElement=document.createElement("p")
         titleElement.textContent=data.name
         let titleContainer=document.querySelector(".title")
@@ -125,14 +163,6 @@ document.addEventListener("DOMContentLoaded",function(){
     } 
 })
     }
-    // let overlay = document.querySelector(".overlay-attractions");
-    // let signinUpButton = document.getElementById("signin_up");
-    // signinUpButton.addEventListener("click", function () {
-    //     // 显示 "overlay-attractions"
-    //     overlay.style.display = "block";
-    // });
-  
-
     }
 )
 
