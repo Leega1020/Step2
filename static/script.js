@@ -148,13 +148,11 @@ function handleSigninUpButtonClick() {
         
     }else{
         let token=localStorage.getItem("token")
-        let booking_body=document.querySelector("#booking_body")
         
         if(token){
             isLoggedIn=false
             localStorage.removeItem("token")
             localStorage.removeItem("User-Name")
-            booking_body.innerHTML=""
             window.location.reload()
         }else{
             isLoggedIn=true

@@ -10,8 +10,7 @@ document.addEventListener("DOMContentLoaded",function(){
             let currentUrl=window.location.pathname
             let id=currentUrl.split('/').pop()
             let tourFeeText=document.querySelector("#tour_fee").textContent
-            let tourFee=parseFloat(tourFeeText.match(/\d+/)[0]) 
-            let userName=localStorage.getItem("User-Name")
+            let tourFee=parseInt(tourFeeText.match(/\d+/)[0])
             function getSelectedTime(){
                 let selectedTime;
                 if (tourFee == 2000){
@@ -26,7 +25,6 @@ document.addEventListener("DOMContentLoaded",function(){
                 headers:{
                     "Content-Type":"application/json",
                     "Authorization":`Bearer ${token}`,
-                    "User-Name":userName
                 },
                 body:JSON.stringify({
                     id:id,
