@@ -1,4 +1,4 @@
-
+let token=localStorage.getItem("token")
 let overlay=document.querySelector(".overlay")
 let signinUpButton=document.getElementById("signin_up")
 let signinContainer=document.querySelector(".signinContainer")
@@ -43,6 +43,7 @@ signupForm.addEventListener("submit",function(e){
     })
     .then(data=>{
         if(data.ok){
+
             signupMessage.textContent="註冊成功"
             signupMessage.style.color="green"
         }else{
@@ -113,7 +114,7 @@ signinForm.addEventListener("submit",function(e){
     }) 
 })    
 
-let token=localStorage.getItem("token")
+
 fetch("/api/user/auth",{
     method:"GET",
     headers:{
@@ -126,6 +127,10 @@ fetch("/api/user/auth",{
     } else{
         throw new Error("")
     }
+})
+.then(data=>{
+    if(token){ localStorage.setItem("User-Name",data.data.name)}
+   
 })
 .catch(error => {
     console.error("API請求錯誤", error)
@@ -143,9 +148,12 @@ function handleSigninUpButtonClick() {
         
     }else{
         let token=localStorage.getItem("token")
+        
         if(token){
             isLoggedIn=false
             localStorage.removeItem("token")
+            localStorage.removeItem("User-Name")
+            window.location.reload()
         }else{
             isLoggedIn=true
         }
@@ -187,3 +195,4 @@ close_up.addEventListener("click",()=>{
     signupContainer.style.display="none"
     overlay.style.display="none"
 });
+

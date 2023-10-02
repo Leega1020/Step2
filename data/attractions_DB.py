@@ -15,6 +15,7 @@ cur = con.cursor()
 cur.execute("CREATE TABLE attraction_Info (id INT PRIMARY KEY AUTO_INCREMENT,origin_id INT NOT NULL,name VARCHAR(255) NOT NULL,category VARCHAR(255) NOT NULL,description TEXT NOT NULL,address VARCHAR(255) NOT NULL,transport TEXT NOT NULL,mrt VARCHAR(255) NOT NULL,lat FLOAT NOT NULL,lng FLOAT NOT NULL)")
 cur.execute("CREATE TABLE picture_urls (id INT PRIMARY KEY AUTO_INCREMENT,attraction_id INT,urls VARCHAR(255) NOT NULL,FOREIGN KEY (attraction_id) REFERENCES attraction_Info(id))")
 cur.execute("CREATE TABLE member(id INT PRIMARY KEY AUTO_INCREMENT,name VARCHAR(255) NOT NULL,email VARCHAR(255) NOT NULL,password VARCHAR(255) NOT NULL)")
+cur.execute("CREATE TABLE schedule(id INT PRIMARY KEY AUTO_INCREMENT,attraction_id INT NOT NULL,date VARCHAR(255) NOT NULL,time VARCHAR(255) NOT NULL,price INT NOT NULL)")
 mrt_list = []
 with open("taipei-attractions.json") as file:
     travel_data=json.load(file)
