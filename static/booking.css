@@ -46,6 +46,8 @@ nav{
     line-height: 13.3px; /* 83.125% */  
 }
 
+
+
 footer{
     bottom:0;
     width:100%;
@@ -55,6 +57,7 @@ footer{
     align-items:center;
     justify-content:center;
     margin-top: 40px;
+    
 }
 footer p{
     color: var(--additional-color-white, #FFF);
@@ -183,43 +186,7 @@ input{
     border: 1px solid var(--Gray-300, #E8E8E8);
     background: var(--White, #FFF);
 }
-input[type="text"]{
-    padding: 10px;
-    /* Body - Med 16(13.3) */
-    font-family: Noto Sans TC;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 13.3px; /* 83.125% */
-    
-}
-input[type="password"]{
-    padding: 10px;
-    /* Body - Med 16(13.3) */
-    font-family: Noto Sans TC;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 13.3px; /* 83.125% */
-}
-input[type="email"]{
-    padding: 10px;
-    /* Body - Med 16(13.3) */
-    font-family: Noto Sans TC;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 13.3px; /* 83.125% */
-}
-input[type="date"]{
-    padding: 10px;
-    /* Body - Med 16(13.3) */
-    font-family: Noto Sans TC;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 13.3px; /* 83.125% */
-}
+
 .field_notice{
     width: auto;
     height: 24px;
@@ -238,6 +205,7 @@ input[type="date"]{
     margin: 0 0 auto auto;
 }
 .confirm_btn{
+    cursor: pointer;
     color: var(--additional-color-white, #FFF);
     text-align: center;
     /* Button - Reg 19(16) */
@@ -433,11 +401,7 @@ input[type="date"]{
         height: auto;
         margin-bottom: 40px;
     }
-    
-   
-    
-    
-    
+     
   
 }
 
