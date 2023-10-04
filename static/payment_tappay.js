@@ -1,5 +1,9 @@
 document.addEventListener("DOMContentLoaded",function(){
+<<<<<<< HEAD
     const submitButton = document.getElementById('submit-button')
+=======
+
+>>>>>>> a7326a7a6ef7d01ed31ff419d689b05079f3fa07
     window.print=function(){ }
 
     fetch('/api/config')
@@ -11,7 +15,11 @@ document.addEventListener("DOMContentLoaded",function(){
             TPDirect.setupSDK(APP_ID, APP_KEY,"sandbox")
          
 
+<<<<<<< HEAD
 
+=======
+const submitButton = document.getElementById('submit-button')
+>>>>>>> a7326a7a6ef7d01ed31ff419d689b05079f3fa07
 submitButton.addEventListener('click', onSubmit);
 let fields = {
     number: {
