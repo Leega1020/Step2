@@ -1,16 +1,13 @@
 document.addEventListener("DOMContentLoaded",function(){
-
-    const submitButton = document.getElementById('submit-button')
-
     window.print=function(){ }
-
+    let PARTNER_KEY
     fetch('/api/config')
         .then(response => response.json())
         .then(data => {
             const APP_ID=data.APP_ID
             const APP_KEY=data.APP_KEY
             const PARTNER_KEY=data.PARTNER_KEY
-            TPDirect.setupSDK(APP_ID, APP_KEY,"sandbox")
+            TPDirect.setupSDK(APP_ID, APP_KEY,"sandbox");})
 
 const submitButton = document.getElementById('submit-button')
 submitButton.addEventListener('click', onSubmit);
@@ -173,7 +170,6 @@ function onSubmit(event) {
                 'Content-Type': 'application/json',
                 "Authorization":`Bearer ${token}`,
                 "x-api-key":PARTNER_KEY
-               
             },
             body: JSON.stringify(requestData)
         })
@@ -196,4 +192,3 @@ function onSubmit(event) {
         })
     })
 }})
-;})
