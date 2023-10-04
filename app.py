@@ -6,6 +6,7 @@ import jwt
 from datetime import datetime, timedelta
 from flask_cors import CORS
 import mysql.connector.pooling
+import requests 
 
 app = Flask(__name__)
 app.config["JSON_AS_ASCII"] = False
@@ -21,7 +22,9 @@ connection_pool = mysql.connector.pooling.MySQLConnectionPool(**dbconfig)
 
 con = connection_pool.get_connection()
 SECRET_KEY = config('SECRET_KEY')
-
+APP_ID = config('APP_ID')
+APP_KEY = config('APP_KEY')
+PARTNER_KEY = config('PARTNER_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:12345678@localhost/attractions'
 db = SQLAlchemy(app)
 
@@ -75,7 +78,30 @@ class Schedule(db.Model):
         self.date = date
         self.time = time
         self.price = price
+class Orders(db.Model):
+    __tablename__ = 'orders'
 
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    orderId = db.Column(db.Integer, nullable=False)
+    attraction_id = db.Column(db.Integer, nullable=False)
+    name = db.Column(db.String(255), nullable=False)
+    address = db.Column(db.String(255), nullable=False)
+    image = db.Column(db.String(255), nullable=False)
+    date = db.Column(db.String(255), nullable=False)
+    time = db.Column(db.String(255), nullable=False)
+    price = db.Column(db.Integer, nullable=False)
+    user_name = db.Column(db.String(255))
+
+    def __init__(self, orderId, attraction_id, name, address, image, date, time, price, user_name):
+        self.orderId = orderId
+        self.attraction_id = attraction_id
+        self.name = name
+        self.address = address
+        self.image = image
+        self.date = date
+        self.time = time
+        self.price = price
+        self.user_name = user_name
 
 @app.route("/api/attractions",methods=["GET"])
 def get_data_list():
@@ -343,7 +369,7 @@ def getBookingInfo():
                         "price":price
                     }
                     con.commit()
-                    print(response_data)
+                   # print(response_data)
                     return jsonify(response_data)
             else:
                 error_message="建立失敗，輸入不正確或其他原因"
@@ -412,6 +438,161 @@ def deleteBooking():
             "message": error_message
         }),403
     
+
+
+
+
+
+
+
+
+
+@app.route("/api/orders", methods=["POST"])
+def create_order():
+    try:
+        token = request.headers.get('Authorization').split(' ')[1]
+        userName=session.get("userName")
+        if token is None:
+            error_message = "未登入系統，拒絕存取"
+            return jsonify({"error": True, "message": error_message}), 403
+
+        else:
+           
+            prime = request.json.get("prime")
+           
+            order = request.json.get("order")
+            partner_key=request.headers.get("x-api-key")
+           
+            price = order.get("price")
+            trip = order.get("trip")
+            contact = order.get("contact")
+
+            id = trip.get("attraction").get("id")
+            name = trip.get("attraction").get("name")
+            address = trip.get("attraction").get("address")
+            image = trip.get("attraction").get("image")
+            date = trip.get("date")
+            time = trip.get("time")
+
+            contactName = contact.get("name")
+            contactMail = contact.get("email")
+            contactPhone = contact.get("phone")
+            orderId=date.replace("-", "")+contactPhone[2:]
+            #print(orderId)
+            cur=con.cursor()
+            cur.execute("INSERT INTO order_status (orderId, status, message,uesr_name) VALUES (%s, 1, '未付款',%s)", (orderId,userName))
+            con.commit()
+            cur.execute("SELECT*FROM order_status WHERE orderId=%s",(orderId,))
+            buildOrder=cur.fetchone()
+            if buildOrder is None:
+                return jsonify({"number":orderId})
+            else:
+                tap_pay_payload = {
+                    "prime": prime,
+                    "partner_key": "partner_7YCCWUrfOcTjoZebBvVp1Y1ehH1uZbzPsHd3I5sBitpxN5ZwCNJwtTg3",
+                    "merchant_id": "donna851020_TAISHIN",
+                    "details":"TapPay Test",
+                    "amount": price,
+                    "cardholder": {
+                        "phone_number": contactPhone,
+                        "name": contactName,
+                        "email": contactMail,
+                        "address": address,
+                    }
+                
+                }   
+                print("ok here")
+                sandboxurl="https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
+                response_data = requests.post(sandboxurl, json=tap_pay_payload, headers={"Content-Type": "application/json", "x-api-key":partner_key
+                })
+                print(partner_key)
+                if response_data.status_code == 200:
+                    cur=con.cursor()
+                    cur.execute(
+                    "INSERT INTO orders (orderId, attraction_id, name, address, image, date, time, price, contactName,contactMail,contactPhone) "
+                    "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                    (orderId ,id,name,address ,image ,date ,time ,price ,contactName,contactMail,contactPhone)
+                )
+                    con.commit()
+
+                    session["orderId"]=orderId
+                    cur.execute("UPDATE order_status SET status=0, message='付款成功' WHERE orderId = %s",(orderId,))
+                    con.commit()
+                    print("ok commit")
+                    cur.execute("SELECT*FROM order_status WHERE orderId = %s",(orderId,))
+                    result=cur.fetchone()
+                    response_data={
+                                "number": result[1],
+                                "payment": {
+                                "status": result[2],
+                                "message": result[3]
+                                }
+                        }
+                    
+                    print(response_data)
+                    cur.execute("DELETE FROM schedule WHERE user_name=%s",(userName,))
+                    con.commit()
+                    return jsonify({"data": response_data}), 200
+                else:
+                    error_message = "訂單建立失敗，輸入不正確或其他原因"
+                    return jsonify({"error": True, "message": error_message}), 400
+
+    except Exception as e:
+        error_message = str(e)
+        return jsonify({"error": True, "message": error_message}), 500
+
+
+
+    
+@app.route("/api/orders/<orderNumber>", methods=["GET"])
+def getOrders(orderNumber):
+    token=request.headers.get('Authorization').split(' ')[1]
+    userName=session.get("userName")
+    if token is None:
+        error_message="未登入系統，拒絕存取"
+        return jsonify({{
+            "error": True,
+            "message":error_message
+            }})
+    else:
+        cur=con.cursor()
+        cur.execute("SELECT * FROM orders INNER JOIN order_status ON orders.orderId = order_status.orderId WHERE orders.orderId = %s", (orderNumber,))
+        result=cur.fetchone()
+        if result is None:
+            return jsonify({"data":None})
+    
+        else:
+            reponse_data=({"number":orderNumber,
+                    "price": result[6],
+                    "trip": {
+                    "attraction": {
+                        "id": result[2],
+                        "name": result[3],
+                        "address": result[4],
+                        "image": result[5]
+                    },
+                    "date": result[7],
+                    "time": result[8]
+                    },
+                    "contact": {
+                    "name": result[9],
+                    "email": result[10],
+                    "phone": result[11]
+                    },
+                    "status": result[14]})
+            print(reponse_data)
+            return jsonify({"data":reponse_data})
+
+
+@app.route("/api/config")
+def get_config():
+    config_data = {
+        'SECRET_KEY':config('SECRET_KEY'),
+        'APP_ID':config('APP_ID'),
+        'APP_KEY':config('APP_KEY'),
+        'PARTNER_KEY':config('PARTNER_KEY')
+    }
+    return jsonify(config_data)
 
 # Pages
 @app.route("/")

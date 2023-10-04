@@ -43,6 +43,15 @@ document.addEventListener("DOMContentLoaded",function(){
                     imgElementContainer.appendChild(imgElement)
                     let user_nameElement=document.querySelector("#user_name")
                     user_nameElement.textContent=User_Name
+
+                    localStorage.setItem("id",data.data.attraction.id)
+                    localStorage.setItem("name",data.data.attraction.name)
+                    localStorage.setItem("address",data.data.attraction.address)
+                    localStorage.setItem("image",data.data.attraction.image)
+                    localStorage.setItem("date",data.data.date)
+                    localStorage.setItem("time",data.data.time)
+                    localStorage.setItem("price",data.data.price)
+                    print(data.data)
                 } else {
                     let main=document.querySelector("main")
                     main.innerHTML=""
@@ -59,7 +68,9 @@ document.addEventListener("DOMContentLoaded",function(){
     }}
 
 let trash=document.querySelector(".trash")
-trash.addEventListener("click",function(){
+trash.addEventListener("click",function(){ deleteBooking()});
+
+function deleteBooking(){
     let token=localStorage.getItem("token")
     if(!token){
         handleSigninUpButtonClick()
@@ -73,6 +84,14 @@ trash.addEventListener("click",function(){
         .then((response)=>{
             if(response.status===200) {
                 console.log(response)
+                //localStorage.removeItem("orderNumber")
+                localStorage.removeItem("date")
+                localStorage.removeItem("time")
+                localStorage.removeItem("id")
+                localStorage.removeItem("address")
+                localStorage.removeItem("image")
+                localStorage.removeItem("name")
+                localStorage.removeItem("price")
                 window.location.reload()
             }else{
                 throw new Error("Failed to delete booking")
@@ -80,7 +99,7 @@ trash.addEventListener("click",function(){
         })
         .catch((error)=>{
             console.error(error)
-        })
+        })}
     }
-});
+
 });
