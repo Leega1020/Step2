@@ -1,13 +1,14 @@
 document.addEventListener("DOMContentLoaded",function(){
     window.print=function(){ }
-    let PARTNER_KEY
+    let PARTNER_KEY="partner_7YCCWUrfOcTjoZebBvVp1Y1ehH1uZbzPsHd3I5sBitpxN5ZwCNJwtTg3"
     fetch('/api/config')
         .then(response => response.json())
         .then(data => {
             const APP_ID=data.APP_ID
             const APP_KEY=data.APP_KEY
-            const PARTNER_KEY=data.PARTNER_KEY
-            TPDirect.setupSDK(APP_ID, APP_KEY,"sandbox");})
+            TPDirect.setupSDK(APP_ID, APP_KEY,"sandbox")
+            
+        })
 
 const submitButton = document.getElementById('submit-button')
 submitButton.addEventListener('click', onSubmit);
@@ -163,7 +164,7 @@ function onSubmit(event) {
             }
         }
 
-        
+   
         fetch('/api/orders', {
             method: 'POST',
             headers: {
