@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded",function(){
     window.print=function(){ }
-    let PARTNER_KEY="partner_7YCCWUrfOcTjoZebBvVp1Y1ehH1uZbzPsHd3I5sBitpxN5ZwCNJwtTg3"
+    //let PARTNER_KEY="partner_7YCCWUrfOcTjoZebBvVp1Y1ehH1uZbzPsHd3I5sBitpxN5ZwCNJwtTg3"
     fetch('/api/config')
         .then(response => response.json())
         .then(data => {
@@ -129,6 +129,12 @@ function onSubmit(event) {
         }
         //console.log(result.card.prime)
         //console.log(result)
+        fetch('/api/config')
+        .then(response => response.json())
+        .then(data => {
+            const PARTNER_KEY=data.PARTNER_KEY
+            
+        
         let token = localStorage.getItem("token")
         let id=localStorage.getItem("id")
         let name=localStorage.getItem("name")
@@ -190,6 +196,6 @@ function onSubmit(event) {
         })
         .catch(error => {
             console.error('Error:', error);
-        })
+        })})
     })
 }})

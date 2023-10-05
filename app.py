@@ -485,7 +485,8 @@ def create_order():
             cur.execute("SELECT*FROM order_status WHERE orderId=%s",(orderId,))
             buildOrder=cur.fetchone()
             if buildOrder is None:
-                return jsonify({"number":orderId})
+                error_message = "訂單建立失敗，輸入不正確或其他原因"
+                return jsonify({"error": True, "message": error_message}), 400
             else:
                 tap_pay_payload = {
                     "prime": prime,
@@ -534,9 +535,7 @@ def create_order():
                     con.commit()
                     return jsonify({"data": response_data}), 200
                 else:
-                    error_message = "訂單建立失敗，輸入不正確或其他原因"
-                    return jsonify({"error": True, "message": error_message}), 400
-
+                    return jsonify({"number":orderId})
     except Exception as e:
         error_message = str(e)
         return jsonify({"error": True, "message": error_message}), 500
