@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" type="text/css" href="/static/booking.css">
+    <link rel="stylesheet" type="text/css" href="/static/payment_tappay.css">
+
 </head>
 <body id="booking_body">
     <nav>
@@ -56,15 +58,15 @@
             <p class="font_size19">您的聯絡資訊</p></div>
             <div class="input_item">
                 <label class="font_weight500">聯絡姓名：</label>
-                <input type="text">
+                <input id="contactName" type="text">
             </div>
             <div class="input_item">
                 <label class="font_weight500">連絡信箱：</label>
-                <input type="email">
+                <input id="contactMail" type="email">
             </div>
             <div class="input_item">
                 <label class="font_weight500">手機號碼：</label>
-                <input type="text">
+                <input id="contactPhone" type="text">
             </div>
             <div class="field_notice">
                 <p class="font_size16">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</p>
@@ -78,17 +80,14 @@
             <p class="font_size19">信用卡付款資訊</p></div>
             <div class="input_item">
                 <label class="font_weight500">卡片號碼：</label>
-                <input type="password" placeholder="**** **** **** ****">
-            </div>
+            <div class="tpfield" id="card-number"></div></div>
             <div class="input_item">
                 <label class="font_weight500">過期時間：</label>
-                <input type="text" placeholder="MM/YY">
-            </div>
+            <div class="tpfield" id="card-expiration-date"></div></div>
             <div class="input_item">
                 <label class="font_weight500">驗證密碼：</label>
-                <input type="text" placeholder="CVV">
-            </div>
-            
+            <div class="tpfield" id="card-ccv"></div></div>
+                        
         </div>
     </section>
     <hr>
@@ -97,7 +96,7 @@
         <div class="field">
             <p class="font_size16">總價：新台幣 <span id="total"></span> 元</p>
         </div>
-        <button class="confirm_btn">確認訂購並付款</button></div>
+        <button class="confirm_btn" id="submit-button" >確認訂購並付款</button></div>
     </section>
 </main> 
 
@@ -105,6 +104,8 @@
     <footer>
         <p>COPYRIGHT © 2021 台北一日遊</p>
     </footer>
+
+    
     <div class="signinContainer" style="display: none;">
         <div class="decorator-bar"></div>
         <div class="sign_main">
@@ -160,6 +161,10 @@
     <script src="/static/script.js"></script>
     <script src="/static/booking.js"></script>
     <script src="/static/common.js"></script>
+    
+    <script src="https://js.tappaysdk.com/sdk/tpdirect/v5.17.0"></script>
+    <script src="/static/payment_tappay.js"></script>
+    <script src="/static/thankyou.js"></script>
 </body>
 </html>
 
