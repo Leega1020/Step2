@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded",function(){
     window.print=function(){ }
+    if(token){
     //let PARTNER_KEY="partner_7YCCWUrfOcTjoZebBvVp1Y1ehH1uZbzPsHd3I5sBitpxN5ZwCNJwtTg3"
     fetch('/api/config')
         .then(response => response.json())
@@ -198,4 +199,4 @@ function onSubmit(event) {
             console.error('Error:', error);
         })})
     })
-}})
+}}})

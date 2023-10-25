@@ -4,9 +4,11 @@ from flask import *
 from decouple import config
 import jwt
 from datetime import datetime, timedelta
-from flask_cors import CORS
+#from flask_cors import CORS
 import mysql.connector.pooling
 import requests 
+import boto3
+import pymysql
 
 app = Flask(__name__)
 app.config["JSON_AS_ASCII"] = False
@@ -25,10 +27,19 @@ SECRET_KEY = config('SECRET_KEY')
 APP_ID = config('APP_ID')
 APP_KEY = config('APP_KEY')
 PARTNER_KEY = config('PARTNER_KEY')
+
+AWS_ACCESS_KEY=config('AWS_ACCESS_KEY')
+AWS_SECRET_KEY=config('AWS_SECRET_KEY')
+S3_BUCKET=config('S3_BUCKET')
+RDS_HOST=config('RDS_HOST')
+RDS_USER=config('RDS_USER')
+RDS_PASSWORD=config('RDS_PASSWORD')
+RDS_DB=config('RDS_DB')
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:12345678@localhost/attractions'
 db = SQLAlchemy(app)
 
-CORS(app)
+#CORS(app)
 
 class Attraction(db.Model):
     __tablename__ = 'attraction_Info'
@@ -582,6 +593,47 @@ def getOrders(orderNumber):
             print(reponse_data)
             return jsonify({"data":reponse_data})
 
+s3=boto3.client("s3",aws_access_key_id=AWS_ACCESS_KEY,aws_secret_access_key=AWS_SECRET_KEY)
+
+db=pymysql.connect(host=RDS_HOST,user=RDS_USER,password=RDS_PASSWORD,db=RDS_DB,cursorclass=pymysql.cursors.DictCursor)
+cursor=db.cursor()
+cursor.execute("CREATE TABLE board(id INT PRIMARY KEY AUTO_INCREMENT, text_content VARCHAR(255) NOT NULL)")
+db.commit()
+cloudfront_domain="https://d3u20ovlrk4ryy.cloudfront.net"
+@app.route("/api/board",methods=["POST"])
+def post_board():
+    textContent=request.form.get("textContent")
+
+    file=request.files["image"]
+    s3.upload_fileobj(file,S3_BUCKET,f'images/{file.filename}')
+    session["imgName"]=file.filename
+ 
+    cursor.execute("INSERT INTO board (text_content) VALUES (%s)",(textContent,))
+    db.commit()
+
+    return jsonify({"ok":True})
+
+@app.route("/api/board",methods=["GET"])
+def get_board():
+    imageName=session.get("imgName")
+    if imageName is not None:
+        imageURL="https://d3u20ovlrk4ryy.cloudfront.net/images/" + imageName
+        cursor.execute("SELECT * FROM board ORDER BY id DESC")
+        results = cursor.fetchall()
+        response_data=[]  
+        for i in results:
+            textContent=i["text_content"]
+            message_data={
+                "imageURL":imageURL,
+                "textContent":textContent
+            }
+            response_data.append(message_data) 
+
+        return jsonify({"data": response_data}) 
+    else:
+        return jsonify({"data": None})
+
+
 
 @app.route("/api/config")
 def get_config():
@@ -606,5 +658,8 @@ def booking():
 @app.route("/thankyou")
 def thankyou():
 	return render_template("thankyou.html")
+@app.route("/board")
+def board():
+	return render_template("board.html")
     
 app.run(host="0.0.0.0",port=3000)

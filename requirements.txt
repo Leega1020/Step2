@@ -1,0 +1,11 @@
+Flask==2.3.3
+flask_sqlalchemy==3.0.5
+SQLAlchemy==2.0.20
+python-decouple==3.4
+PyJWT==2.3.0
+boto3==1.28.70
+pymysql==1.1.0
+mysql-connector==2.2.9
+mysql-connector-python==8.2.0
+requests==2.31.0
+botocore==1.31.70
