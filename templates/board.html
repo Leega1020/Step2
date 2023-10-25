@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/board.css" />
+</head>
+<body>
+    <h2>發表一篇圖文</h2>
+<form id="theForm">
+    文字內容<input type="text" id="textContentInput" placeholder="選擇一張圖片後送出"></input><br>
+    圖片檔案<input type="file" id="imageFileInput"></input><br>
+    <button type="submit">送出</button>
+</form>
+
+<div id="message"></div>
+<script>
+    let isFetching=false
+    fetchBoardData()
+
+    document.getElementById("theForm").addEventListener("submit",function(event){
+    event.preventDefault()
+    let textContent=document.querySelector("#textContentInput").value
+    let imageURL=document.querySelector("#imageFileInput")
+    const file=imageURL.files[0]
+
+    if (file) {
+        const formData=new FormData()
+        formData.append("image",file)
+        formData.append("textContent",textContent)
+
+        fetch("api/board",{
+            method:"POST",
+            body:formData,
+        })
+        .then((response)=>response.json())
+        .then((data)=>{
+            if (data){
+                fetchBoardData()
+            }
+        })
+    }
+})
+
+async function fetchBoardData() {
+    if(isFetching){
+        return
+    }
+    isFetching=true
+    try{
+        const response=await fetch("api/board",{
+            method:"GET",
+        })
+        if (response.ok){
+            const data=await response.json()
+            if (data && data.data) {
+                const messageDiv = document.querySelector("#message")
+                messageDiv.innerHTML=""
+                
+                data.data.forEach((messageData)=>{
+                    const messageContainer=document.createElement("div")
+                    const text=document.createElement("p")
+                    text.textContent=messageData.textContent
+                    const img=document.createElement("img")
+                    img.src=messageData.imageURL
+                    messageContainer.classList.add("message")
+                    messageContainer.appendChild(text)
+                    messageContainer.appendChild(img)
+                    messageDiv.appendChild(messageContainer)
+                    
+                    const hr=document.createElement("hr")
+                    messageDiv.appendChild(hr)
+                })
+                
+                document.querySelector("#textContentInput").value=""
+                document.querySelector("#imageFileInput").value=""
+            }
+        }
+    } catch (error) {
+        console.error("Error fetching data: " + error);
+    } finally {
+        isFetching = false;
+    }
+}
+
+    
+
+
+</script>
+</body>
+</html>
