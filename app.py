@@ -597,8 +597,8 @@ s3=boto3.client("s3",aws_access_key_id=AWS_ACCESS_KEY,aws_secret_access_key=AWS_
 
 db=pymysql.connect(host=RDS_HOST,user=RDS_USER,password=RDS_PASSWORD,db=RDS_DB,cursorclass=pymysql.cursors.DictCursor)
 cursor=db.cursor()
-cursor.execute("CREATE TABLE board(id INT PRIMARY KEY AUTO_INCREMENT, text_content VARCHAR(255) NOT NULL)")
-db.commit()
+#cursor.execute("CREATE TABLE board(id INT PRIMARY KEY AUTO_INCREMENT,text_content VARCHAR(255),imageName VARCHAR(255))")
+#db.commit()
 cloudfront_domain="https://d3u20ovlrk4ryy.cloudfront.net"
 @app.route("/api/board",methods=["POST"])
 def post_board():
@@ -606,9 +606,10 @@ def post_board():
 
     file=request.files["image"]
     s3.upload_fileobj(file,S3_BUCKET,f'images/{file.filename}')
-    session["imgName"]=file.filename
+    imageName=file.filename
+    session["imgName"]=imageName
  
-    cursor.execute("INSERT INTO board (text_content) VALUES (%s)",(textContent,))
+    cursor.execute("INSERT INTO board (text_content,imageName) VALUES (%s,%s)",(textContent,imageName))
     db.commit()
 
     return jsonify({"ok":True})
@@ -617,12 +618,13 @@ def post_board():
 def get_board():
     imageName=session.get("imgName")
     if imageName is not None:
-        imageURL="https://d3u20ovlrk4ryy.cloudfront.net/images/" + imageName
+        
         cursor.execute("SELECT * FROM board ORDER BY id DESC")
         results = cursor.fetchall()
         response_data=[]  
         for i in results:
             textContent=i["text_content"]
+            imageURL="https://d3u20ovlrk4ryy.cloudfront.net/images/" + i["imageName"]
             message_data={
                 "imageURL":imageURL,
                 "textContent":textContent
