@@ -9,3 +9,4 @@ mysql-connector==2.2.9
 mysql-connector-python==8.2.0
 requests==2.31.0
 botocore==1.31.70
+uuid==1.30
