@@ -9,6 +9,7 @@ import mysql.connector.pooling
 import requests 
 import boto3
 import pymysql
+import uuid
 
 app = Flask(__name__)
 app.config["JSON_AS_ASCII"] = False
@@ -605,8 +606,8 @@ def post_board():
     textContent=request.form.get("textContent")
 
     file=request.files["image"]
-    s3.upload_fileobj(file,S3_BUCKET,f'images/{file.filename}')
-    imageName=file.filename
+    imageName= str(uuid.uuid4())
+    s3.upload_fileobj(file,S3_BUCKET,f'images/{imageName}')
     session["imgName"]=imageName
  
     cursor.execute("INSERT INTO board (text_content,imageName) VALUES (%s,%s)",(textContent,imageName))
